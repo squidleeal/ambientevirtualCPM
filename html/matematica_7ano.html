@@ -1,0 +1,102 @@
+<head>  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPM Virtual</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+<div class="header-container">
+    <header>
+        <img src="../imgs/logo.png" alt="Logo CPM" class="logo">
+        <div class="header-title">
+            <h3><a href="index.html">Colégio da Polícia Militar</a></h3>
+            <h4>Unidade 1</h4>
+            <nav class="header-links">
+                <a href="portugues.html">Português</a>
+                <a href="matematica.html">Matemática</a>
+            </nav>
+        </div>
+    </header>
+</div>
+<div class="quiz-container">
+    <h2>Desafio de Matemática - 7º Ano</h2>
+    <p id="pergunta"></p>
+    <form id="quiz-form">
+        <input type="number" id="resposta" required placeholder="Sua resposta">
+        <button type="submit">Responder</button>
+    </form>
+    <p id="feedback" style="color: red; font-weight: bold;"></p>
+</div>
+
+<script>
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+const perguntas = [
+   { q: "Qual é o valor de 2³ + 3²?", r: 17 },
+    { q: "Resolva: 5 × (4 + 3)", r: 35 },
+    { q: "Qual é a fração irredutível de 18/24?", r: 0.75 }, // 18/24 = 3/4 = 0.75
+    { q: "Qual é o resultado de 2/5 + 1/10?", r: 0.5 },
+    { q: "Qual é o valor de x na equação: x + 7 = 15?", r: 8 },
+    { q: "Quanto é 30% de 90?", r: 27 },
+    { q: "Qual é o perímetro de um quadrado de lado 12 cm?", r: 48 },
+    { q: "Qual é a área de um triângulo de base 10 cm e altura 6 cm?", r: 30 },
+    { q: "Qual é o resultado de 81 ÷ 9 + 4 × 2?", r: 13 },
+    { q: "Qual é o número inteiro entre 2² e 3²?", r: 5 },
+    { q: "Qual é o MMC entre 6 e 8?", r: 24 },
+    { q: "Qual é o MDC entre 18 e 24?", r: 6 },
+    { q: "Qual é o valor de 7² - 5²?", r: 24 },
+    { q: "Qual é a raiz quadrada de 121?", r: 11 },
+    { q: "Se um produto custa R$ 80,00 e tem 25% de desconto, quanto ele custa agora?", r: 60 },
+    { q: "Qual é o valor decimal de 3/8?", r: 0.375 },
+    { q: "Qual é o resultado de 2³ × 3²?", r: 72 },
+    { q: "Qual é o valor de x na equação: 3x = 27?", r: 9 },
+    { q: "Qual é o próximo número da sequência: 2, 5, 8, 11, ...?", r: 14 },
+    { q: "Quantos lados tem um decágono?", r: 10 }
+];
+
+// Embaralha as perguntas ao iniciar o quiz
+shuffle(perguntas);
+
+let atual = 0;
+
+function mostrarPergunta() {
+    document.getElementById('pergunta').textContent = perguntas[atual].q;
+    document.getElementById('resposta').value = '';
+    document.getElementById('feedback').textContent = '';
+}
+
+document.getElementById('quiz-form').onsubmit = function(e) {
+    e.preventDefault();
+    const resposta = Number(document.getElementById('resposta').value);
+    const feedback = document.getElementById('feedback');
+    if (resposta === perguntas[atual].r) {
+        atual++;
+        if (atual < perguntas.length) {
+            mostrarPergunta();
+        } else {
+            feedback.style.color = 'green';
+            feedback.textContent = 'Parabéns! Você concluiu todos os desafios!';
+            document.getElementById('quiz-form').style.display = 'none';
+        }
+    } else {
+        feedback.style.color = 'red';
+        feedback.textContent = 'Resposta errada! Voltando ao início...';
+        setTimeout(() => {
+            atual = 0;
+            mostrarPergunta();
+            document.getElementById('quiz-form').style.display = '';
+        }, 1500);
+    }
+};
+
+mostrarPergunta();
+</script>
+</body>
+    <footer>  
+    </footer>

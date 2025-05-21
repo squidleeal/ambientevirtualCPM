@@ -1,0 +1,102 @@
+<head>  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPM Virtual</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+<div class="header-container">
+    <header>
+        <img src="../imgs/logo.png" alt="Logo CPM" class="logo">
+        <div class="header-title">
+            <h3><a href="index.html">Colégio da Polícia Militar</a></h3>
+            <h4>Unidade 1</h4>
+            <nav class="header-links">
+                <a href="portugues.html">Português</a>
+                <a href="matematica.html">Matemática</a>
+            </nav>
+        </div>
+    </header>
+</div>
+<div class="quiz-container">
+    <h2>Desafio de Matemática - 8º Ano</h2>
+    <p id="pergunta"></p>
+    <form id="quiz-form">
+        <input type="number" id="resposta" required placeholder="Sua resposta">
+        <button type="submit">Responder</button>
+    </form>
+    <p id="feedback" style="color: red; font-weight: bold;"></p>
+</div>
+
+<script>
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+const perguntas = [
+    { q: "Resolva: 3/4 + 5/8 (responda em decimal)", r: 1.375 },
+    { q: "Resolva: 2,5 ÷ 0,5", r: 5 },
+    { q: "Qual é o valor de (3² + 4²) ÷ 5?", r: 5 },
+    { q: "Simplifique a fração 72/108 (resposta em decimal)", r: 0.666 }, // 2/3
+    { q: "Resolva: [3 + (5 × 2)] - 4²", r: -6 },
+    { q: "Calcule: (6 + 2) × (10 - 7) ÷ 3", r: 8 },
+    { q: "Qual é 25% de 240?", r: 60 },
+    { q: "Um produto custa R$ 200 e teve 15% de desconto. Qual é o preço final?", r: 170 },
+    { q: "Um capital de R$ 500 rende 2% ao mês. Qual é o valor dos juros em 4 meses?", r: 40 },
+    { q: "Se 5 metros de tecido custam R$ 80, quanto custam 8 metros?", r: 128 },
+    { q: "Uma torneira enche um tanque em 4 horas. Quantas horas levariam 3 torneiras iguais funcionando juntas?", r: 1.33 }, // Aproximadamente 1 hora e 20 minutos
+    { q: "Calcule a área de um triângulo com base 10 cm e altura 8 cm.", r: 40 },
+    { q: "Qual é o perímetro de um quadrado cujo lado mede 7 cm?", r: 28 },
+    { q: "A área de um círculo é aproximadamente 78,5 cm². Qual é o raio? (Use π ≈ 3,14)", r: 5 },
+    { q: "Qual é o volume de uma caixa de 5cm x 4cm x 3cm?", r: 60 },
+    { q: "Um triângulo retângulo tem catetos de 6 cm e 8 cm. Qual é a hipotenusa?", r: 10 },
+    { q: "Resolva a equação: 3x - 7 = 11", r: 6 },
+    { q: "Resolva a equação: 5(x + 2) = 30", r: 4 },
+    { q: "Resolva a equação: x² - 9 = 0", r: 3 },
+    { q: "Qual é a probabilidade de sair um número par ao lançar um dado comum?", r: 0.5 } // 3 pares em 6 possíveis
+];
+
+// Embaralha as perguntas ao iniciar o quiz
+shuffle(perguntas);
+
+let atual = 0;
+
+function mostrarPergunta() {
+    document.getElementById('pergunta').textContent = perguntas[atual].q;
+    document.getElementById('resposta').value = '';
+    document.getElementById('feedback').textContent = '';
+}
+
+document.getElementById('quiz-form').onsubmit = function(e) {
+    e.preventDefault();
+    const resposta = Number(document.getElementById('resposta').value);
+    const feedback = document.getElementById('feedback');
+    if (resposta === perguntas[atual].r) {
+        atual++;
+        if (atual < perguntas.length) {
+            mostrarPergunta();
+        } else {
+            feedback.style.color = 'green';
+            feedback.textContent = 'Parabéns! Você concluiu todos os desafios!';
+            document.getElementById('quiz-form').style.display = 'none';
+        }
+    } else {
+        feedback.style.color = 'red';
+        feedback.textContent = 'Resposta errada! Voltando ao início...';
+        setTimeout(() => {
+            atual = 0;
+            mostrarPergunta();
+            document.getElementById('quiz-form').style.display = '';
+        }, 1500);
+    }
+};
+
+mostrarPergunta();
+</script>
+</body>
+    <footer>  
+    </footer>
