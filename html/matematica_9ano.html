@@ -72,11 +72,24 @@ function mostrarPergunta() {
     document.getElementById('feedback').textContent = '';
 }
 
+function iniciarQuiz() {
+    shuffle(perguntas);
+    atual = 0;
+    mostrarPergunta();
+    document.getElementById('quiz-form').style.display = '';
+}
+
 document.getElementById('quiz-form').onsubmit = function(e) {
     e.preventDefault();
     const resposta = Number(document.getElementById('resposta').value);
     const feedback = document.getElementById('feedback');
-    if (resposta === perguntas[atual].r) {
+    let corretas = perguntas[atual].r;
+    if (!Array.isArray(corretas)) {
+        corretas = [corretas];
+    }
+    // Aceita respostas numéricas próximas (duas casas decimais)
+    const acertou = corretas.some(certa => Math.abs(Number(resposta) - Number(certa)) < 0.01);
+    if (acertou) {
         atual++;
         if (atual < perguntas.length) {
             mostrarPergunta();
@@ -87,15 +100,17 @@ document.getElementById('quiz-form').onsubmit = function(e) {
         }
     } else {
         feedback.style.color = 'red';
-        feedback.textContent = 'Resposta errada! Voltando ao início...';
+        let respostaCerta = Array.isArray(perguntas[atual].r)
+            ? perguntas[atual].r.join(" ou ")
+            : perguntas[atual].r;
+        feedback.textContent = `Resposta errada! A resposta correta seria: "${respostaCerta}". Voltando ao início...`;
         setTimeout(() => {
-            atual = 0;
-            mostrarPergunta();
-            document.getElementById('quiz-form').style.display = '';
-        }, 1500);
+            iniciarQuiz();
+        }, 2000);
     }
 };
 
+iniciarQuiz(); 
 mostrarPergunta();
 </script>
 </body>

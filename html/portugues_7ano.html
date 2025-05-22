@@ -1,0 +1,118 @@
+<head>  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPM Virtual</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+
+<body>
+<div class="header-container">
+    <header>
+        <img src="../imgs/logo.png" alt="Logo CPM" class="logo">
+        <div class="header-title">
+            <h3><a href="index.html">Colégio da Polícia Militar</a></h3>
+            <h4>Unidade 1</h4>
+            <nav class="header-links">
+                <a href="portugues.html">Português</a>
+                <a href="matematica.html">Matemática</a>
+            </nav>
+        </div>
+    </header>
+</div>
+<div class="quiz-container">
+    <h2>Desafio de Português - 7º Ano</h2>
+    <p id="pergunta"></p>
+    <form id="quiz-form">
+        <input type="text" id="resposta" required placeholder="Sua resposta">
+        <button type="submit">Responder</button>
+    </form>
+    <p id="feedback" style="color: red; font-weight: bold;"></p>
+</div>
+
+<script>
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+const perguntasOriginais = [
+    { q: "Qual é a função do sujeito na frase: 'O vento derrubou a árvore'?", r: "O vento" },
+    { q: "Na frase 'O filme foi assistido por muitos', qual é a voz verbal?", r: "passiva" },
+    { q: "Classifique a palavra 'rapidamente' na frase 'Ele correu rapidamente'.", r: "advérbio" },
+    { q: "Qual é o tempo verbal de 'tinham estudado'?", r: "pretérito mais-que-perfeito composto" },
+    { q: "Transforme para a voz ativa: 'O bolo foi feito pela Ana.'", r: "Ana fez o bolo." },
+    { q: "Complete com 'há' ou 'a': 'Moro aqui ___ cinco anos.'", r: "há" },
+    { q: "Qual é o antônimo de 'esperança'?", r: "desespero" },
+    { q: "Qual é o sinônimo de 'inteligente'?", r: "esperto" },
+    { q: "Na palavra 'felicidade', qual é o sufixo?", r: "dade" },
+    { q: "Identifique a figura de linguagem: 'Choveu canivetes ontem.'", r: "hipérbole" },
+    { q: "Qual é a função do ponto e vírgula?", r: "separar itens ou orações independentes" },
+    { q: "Qual é o predicativo do sujeito em: 'Eles estavam cansados.'?", r: "cansados" },
+    { q: "Na frase 'Os alunos resolveram as questões', qual é o objeto direto?", r: "as questões" },
+    { q: "Qual é o plural de 'cidadão'?", r: "cidadãos" },
+    { q: "Qual é o coletivo de 'abelha'?", r: "enxame" },
+    { q: "Complete: 'Fazem / Faz dez dias que não te vejo.' (Escolha a correta)", r: "faz" },
+    { q: "Qual é a sílaba tônica da palavra 'hospital'?", r: "tal" },
+    { q: "Na frase 'Ele ficou bravo', 'bravo' é:", r: "predicativo do sujeito" },
+    { q: "Classifique a oração: 'Se chover, não iremos.'", r: "oração subordinada condicional" },
+    { q: "Qual é o tempo verbal de 'estudarei'?", r: "futuro do presente" }
+];
+
+let perguntas = [];
+let atual = 0;
+
+function normalizar(str) {
+    return str.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function iniciarQuiz() {
+    perguntas = [...perguntasOriginais];
+    shuffle(perguntas);
+    atual = 0;
+    mostrarPergunta();
+    document.getElementById('quiz-form').style.display = '';
+}
+
+function mostrarPergunta() {
+    document.getElementById('pergunta').textContent = perguntas[atual].q;
+    document.getElementById('resposta').value = '';
+    document.getElementById('feedback').textContent = '';
+}
+
+document.getElementById('quiz-form').onsubmit = function(e) {
+    e.preventDefault();
+    const resposta = normalizar(document.getElementById('resposta').value);
+    let corretas = perguntas[atual].r;
+    if (!Array.isArray(corretas)) {
+        corretas = [corretas];
+    }
+    corretas = corretas.map(normalizar);
+    const feedback = document.getElementById('feedback');
+    if (corretas.includes(resposta)) {
+        atual++;
+        if (atual < perguntas.length) {
+            mostrarPergunta();
+        } else {
+            feedback.style.color = 'green';
+            feedback.textContent = 'Parabéns! Você concluiu todos os desafios!';
+            document.getElementById('quiz-form').style.display = 'none';
+        }
+    } else {
+        feedback.style.color = 'red';
+        // Mostra todas as respostas possíveis
+        let respostaCerta = Array.isArray(perguntas[atual].r)
+            ? perguntas[atual].r.join(" ou ")
+            : perguntas[atual].r;
+        feedback.textContent = `Resposta errada! A resposta correta seria: "${respostaCerta}". Voltando ao início...`;
+        setTimeout(() => {
+            iniciarQuiz();
+        }, 2000);
+    }
+};
+iniciarQuiz();
+</script>
+</body>
+<footer>  
+</footer>
