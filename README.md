@@ -1,7 +1,7 @@
 # ambientevirtualCPM
 
 ambiente virtual para o CPMTO
-este nao é um projeto estudantil e nao pode ser comercializado
+este é um projeto estudantil e nao pode ser comercializado
 
 DEVs:
 
