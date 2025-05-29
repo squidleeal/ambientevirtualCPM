@@ -229,8 +229,11 @@ header {
 .carousel-img img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; /* Garante que a imagem não será cortada */
     border-radius: 12px;
+    background: #fff;
+    display: block;
+    margin: 0 auto;
 }
 
 #slide1:checked ~ .carousel-slides .img1,

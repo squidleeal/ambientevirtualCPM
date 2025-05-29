@@ -21,6 +21,7 @@
 </div>
 <div class="quiz-container">
     <h2>Desafio de Português - 7º Ano</h2>
+    <p id="contador-perguntas"></p>
     <p id="pergunta"></p>
     <form id="quiz-form">
         <input type="text" id="resposta" required placeholder="Sua resposta">
@@ -76,10 +77,13 @@ function iniciarQuiz() {
 }
 
 function mostrarPergunta() {
+    document.getElementById('contador-perguntas').textContent =
+        `Pergunta ${atual + 1} / ${perguntas.length}`;
     document.getElementById('pergunta').textContent = perguntas[atual].q;
     document.getElementById('resposta').value = '';
     document.getElementById('feedback').textContent = '';
 }
+
 
 document.getElementById('quiz-form').onsubmit = function(e) {
     e.preventDefault();

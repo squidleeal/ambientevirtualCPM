@@ -21,6 +21,7 @@
 </div>
 <div class="quiz-container">
     <h2>Desafio de Matemática - 7º Ano</h2>
+    <p id="contador-perguntas"></p>
     <p id="pergunta"></p>
     <form id="quiz-form">
         <input type="text" id="resposta" required placeholder="Sua resposta">
@@ -66,10 +67,13 @@ shuffle(perguntas);
 let atual = 0;
 
 function mostrarPergunta() {
+    document.getElementById('contador-perguntas').textContent =
+        `Pergunta ${atual + 1} / ${perguntas.length}`;
     document.getElementById('pergunta').textContent = perguntas[atual].q;
     document.getElementById('resposta').value = '';
     document.getElementById('feedback').textContent = '';
 }
+
 
 function iniciarQuiz() {
     shuffle(perguntas);
