@@ -95,17 +95,20 @@ document.getElementById('quiz-form').onsubmit = function(e) {
     corretas = corretas.map(normalizar);
     const feedback = document.getElementById('feedback');
     if (corretas.includes(resposta)) {
-        atual++;
-        if (atual < perguntas.length) {
-            mostrarPergunta();
-        } else {
-            feedback.style.color = 'green';
-            feedback.textContent = 'Parabéns! Você concluiu todos os desafios!';
-            document.getElementById('quiz-form').style.display = 'none';
-        }
+        feedback.style.color = 'green';
+        feedback.textContent = 'Você acertou!';
+        setTimeout(() => {
+            atual++;
+            if (atual < perguntas.length) {
+                mostrarPergunta();
+            } else {
+                feedback.style.color = 'green';
+                feedback.textContent = 'Parabéns! Você concluiu todos os desafios!';
+                document.getElementById('quiz-form').style.display = 'none';
+            }
+        }, 1000); // Mostra "Você acertou!" por 1 segundo
     } else {
         feedback.style.color = 'red';
-        // Mostra todas as respostas possíveis
         let respostaCerta = Array.isArray(perguntas[atual].r)
             ? perguntas[atual].r.join(" ou ")
             : perguntas[atual].r;
@@ -115,7 +118,6 @@ document.getElementById('quiz-form').onsubmit = function(e) {
         }, 2000);
     }
 };
-
 iniciarQuiz();
 </script>
 </body>

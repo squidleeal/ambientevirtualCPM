@@ -93,14 +93,18 @@ document.getElementById('quiz-form').onsubmit = function(e) {
     // Aceita respostas numéricas próximas (duas casas decimais)
     const acertou = corretas.some(certa => Math.abs(Number(resposta) - Number(certa)) < 0.01);
     if (acertou) {
-        atual++;
-        if (atual < perguntas.length) {
-            mostrarPergunta();
-        } else {
-            feedback.style.color = 'green';
-            feedback.textContent = 'Parabéns! Você concluiu todos os desafios!';
-            document.getElementById('quiz-form').style.display = 'none';
-        }
+        feedback.style.color = 'green';
+        feedback.textContent = 'Você acertou!';
+        setTimeout(() => {
+            atual++;
+            if (atual < perguntas.length) {
+                mostrarPergunta();
+            } else {
+                feedback.style.color = 'green';
+                feedback.textContent = 'Parabéns! Você concluiu todos os desafios!';
+                document.getElementById('quiz-form').style.display = 'none';
+            }
+        }, 1000); // Mostra "Você acertou!" por 1 segundo
     } else {
         feedback.style.color = 'red';
         let respostaCerta = Array.isArray(perguntas[atual].r)
@@ -112,7 +116,6 @@ document.getElementById('quiz-form').onsubmit = function(e) {
         }, 2000);
     }
 };
-
 iniciarQuiz();
 
 mostrarPergunta();
